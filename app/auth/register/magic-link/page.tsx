@@ -31,8 +31,12 @@ export default function MagicLinkRegisterPage() {
       if (error) throw error
 
       router.push('/auth/verify-email')
-    } catch (error) {
-      setError(error.message)
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError('An unexpected error occurred')
+      }
     } finally {
       setIsLoading(false)
     }

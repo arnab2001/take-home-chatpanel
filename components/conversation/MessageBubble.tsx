@@ -6,7 +6,7 @@ interface MessageBubbleProps {
   sender: string;
   text: string;
   time: Date;
-  status?: 'sent' | 'delivered' | 'read';
+  status?: 'sent' | 'delivered' | 'read' | 'failed';
 }
 
 export default function MessageBubble({ side, sender, text, time, status }: MessageBubbleProps) {

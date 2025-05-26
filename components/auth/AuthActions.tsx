@@ -71,7 +71,7 @@ export const AuthActions = ({ isLoading = false, isRegisterPage = false }: AuthA
 
       {!isRegisterPath && (
         <p className="text-center text-sm text-gray-600">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <button
             onClick={() => router.push('/auth/register')}
             className="text-[#34B757] hover:underline"

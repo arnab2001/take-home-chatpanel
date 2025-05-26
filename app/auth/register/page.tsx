@@ -36,7 +36,11 @@ export default function RegisterPage() {
 
       router.push('/auth/verify-email')
     } catch (error) {
-      setError(error.message)
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError('An unexpected error occurred')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -72,7 +76,7 @@ export default function RegisterPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <AuthActions isLoading={isLoading} mode="register" />
+          <AuthActions isLoading={isLoading} isRegisterPage={true} />
         </form>
         <p className="text-center text-sm text-gray-600 mt-4">
           Already have an account?{' '}

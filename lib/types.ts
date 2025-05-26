@@ -21,5 +21,8 @@ export interface Message {
   sender: string;
   text: string;
   time: Date;
-  status?: 'sent' | 'delivered' | 'read';
+  status?: 'sent' | 'delivered' | 'read' | 'failed';
+  attachmentUrl?: string;
+  type?: 'file' | 'image' | 'video';
+  replyTo?: string;
 }

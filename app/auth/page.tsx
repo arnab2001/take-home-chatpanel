@@ -32,7 +32,11 @@ export default function LoginPage() {
 
       router.refresh()
     } catch (error) {
-      setError(error.message)
+      if (error instanceof Error) {
+        setError(error.message)
+      } else {
+        setError('An unexpected error occurred')
+      }
     } finally {
       setIsLoading(false)
     }
