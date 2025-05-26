@@ -4,11 +4,20 @@ import { BiHomeAlt2, BiMessageRoundedDetail, BiGroup } from 'react-icons/bi';
 import { BsGraphUp } from 'react-icons/bs';
 import { RiListCheck2 } from 'react-icons/ri';
 import { HiOutlineDocumentDuplicate } from 'react-icons/hi';
-import { FiSettings, FiPlus } from 'react-icons/fi';
+import { FiSettings, FiPlus, FiLogOut } from 'react-icons/fi';
 import { useState } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
 
 export default function NavRail() {
   const [activeItem, setActiveItem] = useState('chats');
+  const router = useRouter();
+  const supabase = createClientComponentClient();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.refresh(); // This will trigger the middleware to redirect
+  };
 
   const topNavItems = [
     { id: 'home', icon: BiHomeAlt2, label: 'Home' },
@@ -82,6 +91,16 @@ export default function NavRail() {
             aria-label="New Chat"
           >
             <FiPlus size={20} />
+          </button>
+
+          {/* Logout button */}
+          <button
+            onClick={handleLogout}
+            className="w-full relative flex items-center justify-center h-10 text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all duration-150 bg-red-100"
+            aria-label="Logout"
+            title="Logout"
+          >
+            <FiLogOut size={22} />
           </button>
         </div>
       </div>

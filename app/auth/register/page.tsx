@@ -8,8 +8,9 @@ import { AuthLogo } from '@/components/auth/AuthLogo'
 import { AuthHeading } from '@/components/auth/AuthHeading'
 import { AuthInput } from '@/components/auth/AuthInput'
 import { AuthActions } from '@/components/auth/AuthActions'
+import Link from 'next/link'
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -23,14 +24,17 @@ export default function LoginPage() {
     setError(null)
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
       })
 
       if (error) throw error
 
-      router.refresh()
+      router.push('/auth/verify-email')
     } catch (error) {
       setError(error.message)
     } finally {
@@ -43,8 +47,8 @@ export default function LoginPage() {
       <AuthCard>
         <AuthLogo />
         <AuthHeading 
-          title="Welcome back"
-          subtitle="Please enter your details to sign in"
+          title="Create an account"
+          subtitle="Enter your details to get started"
         />
         {error && (
           <div className="text-red-500 text-sm text-center mb-4">
@@ -68,8 +72,14 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <AuthActions isLoading={isLoading} />
+          <AuthActions isLoading={isLoading} mode="register" />
         </form>
+        <p className="text-center text-sm text-gray-600 mt-4">
+          Already have an account?{' '}
+          <Link href="/auth" className="text-[#34B757] hover:underline">
+            Sign in
+          </Link>
+        </p>
       </AuthCard>
     </main>
   )
